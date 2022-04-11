@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { FirebaseService } from '../firebase/firebase.service';
 import { Json } from '../response/json';
@@ -8,7 +9,8 @@ import { AuthService } from './auth.service';
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly firebaseService: FirebaseService
+        private readonly firebaseService: FirebaseService,
+        private readonly configService: ConfigService
     ) { }
 
     @Post('/login')
@@ -18,7 +20,7 @@ export class AuthController {
     ) {
         try {
             const sessionCookie = await this.authService.getSessionCookie(token);
-            const cookieName = 'auth';
+            const cookieName = `${this.configService.get<string>('app.name', 'app')}_session`;
             const user = await this.authService.verifySessionCookie(sessionCookie);
 
             const usersRef = this.firebaseService.firestore.collection('users');
@@ -43,7 +45,7 @@ export class AuthController {
                 secure: true
             }).json(Json.success({ data: user }));
         } catch ({ code, message }) {
-            return response.status(401).json(Json.error({ code, message }));
+            return response.status(401).json(Json.error({ error: { code, message } }));
         }
     }
 
@@ -53,7 +55,7 @@ export class AuthController {
         @Res() response: Response
     ) {
         try {
-            const sessionCookie = request.cookies['auth'];
+            const sessionCookie = request.cookies[`${this.configService.get<string>('app.name', 'app')}_session`];
             const user = await this.authService.verifySessionCookie(sessionCookie);
 
             return response.json(Json.success({ data: user }));
