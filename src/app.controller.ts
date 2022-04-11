@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { map } from 'rxjs';
 import { AppService } from './app.service';
+import { Json } from './response/json';
 
 @Controller()
 export class AppController {
@@ -8,6 +9,6 @@ export class AppController {
 
   @Get('/cryptocurrencies/listings')
   listings() {
-    return this.appService.getHello();
+    return this.appService.getHello().pipe(map(data => Json.success({ data })));
   }
 }
