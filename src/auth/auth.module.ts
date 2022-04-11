@@ -1,13 +1,23 @@
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
-import { FirebaseModule } from '../firebase/firebase.module';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { FirebaseStrategy } from './firebase.strategy';
+import { FirebaseStrategy } from './custom.strategy';
 
 @Module({
-  imports: [FirebaseModule, PassportModule],
-  providers: [AuthService, FirebaseStrategy],
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'AUTH_SERVICE',
+        transport: Transport.TCP,
+        options: {
+          port: 8081
+        }
+      }
+    ]),
+    PassportModule
+  ],
+  providers: [FirebaseStrategy],
   controllers: [AuthController]
 })
 export class AuthModule { }

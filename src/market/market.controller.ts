@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { map } from 'rxjs';
-import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
+import { CustomAuthGuard } from '../auth/custom-auth.guard';
 import { Json } from '../response/json';
 
 @Controller('/market')
@@ -10,10 +10,10 @@ export class MarketController {
         @Inject('MARKET_SERVICE') private readonly client: ClientProxy,
     ) { }
 
-    @UseGuards(FirebaseAuthGuard)
+    @UseGuards(CustomAuthGuard)
     @Get('/listings')
     listings() {
-        return this.client.send({ cmd: 'listings:latest' }, {})
+        return this.client.send({ cmd: 'listings.latest' }, {})
             .pipe(map(data => Json.success({ data })));
     }
 }
