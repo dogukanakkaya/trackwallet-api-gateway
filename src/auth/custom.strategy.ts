@@ -17,9 +17,9 @@ export class CustomStrategy extends PassportStrategy(Strategy, 'custom') {
   async validate(request: Request): Promise<any> {
     const sessionCookie = request.cookies[`${this.configService.get<string>('app.name')}_session`];
 
-    return this.client.send({ cmd: 'auth.verify' }, sessionCookie).subscribe(result => {
-      if ('user' in result) {
-        return result.user;
+    return this.client.send({ cmd: 'auth.verify' }, sessionCookie).subscribe(({ data }) => {
+      if ('user' in data) {
+        return data.user;
       }
 
       throw new UnauthorizedException();

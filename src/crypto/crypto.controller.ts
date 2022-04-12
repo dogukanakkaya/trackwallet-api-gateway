@@ -10,7 +10,7 @@ export class CryptoController {
         @Inject('CRYPTO_SERVICE') private readonly client: ClientProxy
     ) { }
 
-    //@UseGuards(CustomAuthGuard)
+    @UseGuards(CustomAuthGuard)
     @Get('/:slug/balance/:address')
     getBalance(
         @Param('slug') slug: string,

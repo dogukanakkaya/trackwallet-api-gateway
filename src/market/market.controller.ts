@@ -12,7 +12,7 @@ export class MarketController {
         private readonly responseService: ResponseService
     ) { }
 
-    //@UseGuards(CustomAuthGuard)
+    @UseGuards(CustomAuthGuard)
     @Get('/listings')
     getListings(@Res() response: Response) {
         return this.client.send({ cmd: 'coinmarketcap.getListings' }, {})
