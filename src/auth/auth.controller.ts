@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { Request, Response } from 'express';
 import { map } from 'rxjs';
-import { Json } from '../response/json';
 
 @Controller('/auth')
 export class AuthController {
@@ -14,17 +13,17 @@ export class AuthController {
 
     @Post('/login')
     async login(
-        @Res() response: Response,
-        @Body('token') token
+        @Body('token') token,
+        @Res() response: Response
     ) {
         const cookieName = `${this.configService.get<string>('app.name')}_session`;
 
         return this.client.send({ cmd: 'auth.login' }, token)
-            .pipe(map(({ data }) => {
-                return response.cookie(cookieName, data.sessionCookie, {
+            .pipe(map(result => {
+                return response.cookie(cookieName, result.sessionCookie, {
                     httpOnly: true,
                     secure: true
-                }).json(Json.success({ data: data.user }));
+                }).json({ data: { user: result.user } })
             }));
     }
 
@@ -36,8 +35,8 @@ export class AuthController {
         const sessionCookie = request.cookies[`${this.configService.get<string>('app.name')}_session`];
 
         return this.client.send({ cmd: 'auth.verify' }, sessionCookie)
-            .pipe(map(({ data }) => {
-                return response.json(Json.success({ data: data.user }));
+            .pipe(map(result => {
+                return response.json({ data: { user: result.user } });
             }));
     }
 }
