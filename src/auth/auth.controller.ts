@@ -17,7 +17,7 @@ export class AuthController {
         @Res() response: Response,
         @Body('token') token
     ) {
-        const cookieName = `${this.configService.get<string>('app.name', 'app')}_session`;
+        const cookieName = `${this.configService.get<string>('app.name')}_session`;
 
         return this.client.send({ cmd: 'auth.login' }, token)
             .pipe(map(({ data }) => {
@@ -33,7 +33,7 @@ export class AuthController {
         @Req() request: Request,
         @Res() response: Response
     ) {
-        const sessionCookie = request.cookies[`${this.configService.get<string>('app.name', 'app')}_session`];
+        const sessionCookie = request.cookies[`${this.configService.get<string>('app.name')}_session`];
 
         return this.client.send({ cmd: 'auth.verify' }, sessionCookie)
             .pipe(map(({ data }) => {

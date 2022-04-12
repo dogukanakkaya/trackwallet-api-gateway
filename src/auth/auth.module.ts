@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
-import { FirebaseStrategy } from './custom.strategy';
+import { CustomStrategy } from './custom.strategy';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { FirebaseStrategy } from './custom.strategy';
     ]),
     PassportModule
   ],
-  providers: [FirebaseStrategy],
+  providers: [CustomStrategy],
   controllers: [AuthController]
 })
 export class AuthModule { }

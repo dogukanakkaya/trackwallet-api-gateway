@@ -1,5 +1,5 @@
 export default () => ({
     app: {
-        name: process.env.APP_NAME
+        name: process.env.APP_NAME || 'app'
     }
 });
