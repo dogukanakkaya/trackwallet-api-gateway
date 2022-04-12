@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MarketModule } from './market/market.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
-import config from './config';
+import { CryptoModule } from './crypto/crypto.module';
 import { ResponseModule } from './response/response.module';
+import config from './config';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ResponseModule } from './response/response.module';
     }),
     MarketModule,
     AuthModule,
+    CryptoModule,
     ResponseModule
   ]
 })
