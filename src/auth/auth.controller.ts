@@ -1,14 +1,16 @@
-import { Body, Controller, Get, Inject, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Inject, Post, Req, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { Request, Response } from 'express';
 import { map } from 'rxjs';
+import { ResponseService } from '../response/response.service';
 
 @Controller('/auth')
 export class AuthController {
     constructor(
         @Inject('AUTH_SERVICE') private readonly client: ClientProxy,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private readonly responseService: ResponseService
     ) { }
 
     @Post('/login')
@@ -20,10 +22,12 @@ export class AuthController {
 
         return this.client.send({ cmd: 'auth.login' }, token)
             .pipe(map(result => {
-                return response.cookie(cookieName, result.sessionCookie, {
+                this.responseService.throwIfError(result);
+
+                return response.cookie(cookieName, result.data.sessionCookie, {
                     httpOnly: true,
                     secure: true
-                }).json({ data: { user: result.user } })
+                }).json({ data: { user: result.data.user } })
             }));
     }
 
@@ -36,7 +40,9 @@ export class AuthController {
 
         return this.client.send({ cmd: 'auth.verify' }, sessionCookie)
             .pipe(map(result => {
-                return response.json({ data: { user: result.user } });
+                this.responseService.throwIfError(result);
+
+                return response.json({ data: { user: result.data.user } });
             }));
     }
 }

@@ -3,7 +3,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { CustomStrategy } from './custom.strategy';
-import { AuthService } from './auth.service';
 
 @Module({
   imports: [

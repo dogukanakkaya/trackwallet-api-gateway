@@ -3,11 +3,13 @@ import { ClientProxy } from '@nestjs/microservices';
 import { Response } from 'express';
 import { map } from 'rxjs';
 import { CustomAuthGuard } from '../auth/custom-auth.guard';
+import { ResponseService } from '../response/response.service';
 
 @Controller('/market')
 export class MarketController {
     constructor(
         @Inject('MARKET_SERVICE') private readonly client: ClientProxy,
+        private readonly responseService: ResponseService
     ) { }
 
     @UseGuards(CustomAuthGuard)
@@ -17,7 +19,9 @@ export class MarketController {
     ) {
         return this.client.send({ cmd: 'listings.latest' }, {})
             .pipe(map(result => {
-                return response.json({ data: { listings: result.listings } });
+                this.responseService.throwIfError(result);
+
+                return response.json({ data: { listings: result.data.listings } });
             }));
     }
 }

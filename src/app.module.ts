@@ -3,6 +3,7 @@ import { MarketModule } from './market/market.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import config from './config';
+import { ResponseModule } from './response/response.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import config from './config';
       load: [config]
     }),
     MarketModule,
-    AuthModule
+    AuthModule,
+    ResponseModule
   ]
 })
 export class AppModule { }
