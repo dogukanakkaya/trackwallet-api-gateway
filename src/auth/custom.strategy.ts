@@ -19,6 +19,10 @@ export class CustomStrategy extends PassportStrategy(Strategy, 'custom') {
   async validate(request: Request): Promise<User> {
     const sessionCookie = request.cookies[`${this.configService.get<string>('app.name')}_session`];
 
+    if (!sessionCookie) {
+      throw new UnauthorizedException();
+    }
+
     const { data }: AuthVerifyResponse = await lastValueFrom(this.client.send({ cmd: 'auth.verify' }, sessionCookie));
 
     if ('user' in data) {
