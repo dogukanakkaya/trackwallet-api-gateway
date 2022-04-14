@@ -4,7 +4,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { ClientProxy } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
-import { User } from './auth.types';
+import { User } from '@shared/types/user.types';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
