@@ -16,8 +16,8 @@ export class MarketController {
 
     @UseGuards(CustomAuthGuard)
     @Get('/listings')
-    getListings(@User() user: UserType, @Res() response: Response) {
-        return this.client.send({ cmd: 'coinmarketcap.getListings' }, {})
+    listings(@Res() response: Response) {
+        return this.client.send({ cmd: 'coinmarketcap.listings' }, {})
             .pipe(map(result => {
                 this.responseService.throwIfError(result);
 

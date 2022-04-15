@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Inject, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Req, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { Request, Response } from 'express';
@@ -14,10 +14,7 @@ export class AuthController {
     ) { }
 
     @Post('/login')
-    async login(
-        @Body('token') token,
-        @Res() response: Response
-    ) {
+    async login(@Body('token') token, @Res() response: Response) {
         const cookieName = `${this.configService.get<string>('app.name')}_session`;
 
         return this.client.send({ cmd: 'auth.login' }, token)
@@ -31,11 +28,8 @@ export class AuthController {
             }));
     }
 
-    @Get('verify')
-    async verify(
-        @Req() request: Request,
-        @Res() response: Response
-    ) {
+    @Get('/verify')
+    async verify(@Req() request: Request, @Res() response: Response) {
         const sessionCookie = request.cookies[`${this.configService.get<string>('app.name')}_session`];
 
         return this.client.send({ cmd: 'auth.verify' }, sessionCookie)

@@ -12,12 +12,8 @@ export class CryptoController {
 
     @UseGuards(CustomAuthGuard)
     @Get('/:slug/balance/:address')
-    getBalance(
-        @Param('slug') slug: string,
-        @Param('address') address: string,
-        @Res() response: Response
-    ) {
-        return this.client.send({ cmd: `${slug}.getBalance` }, address)
+    balance(@Param('slug') slug: string, @Param('address') address: string, @Res() response: Response) {
+        return this.client.send({ cmd: `${slug}.balance` }, address)
             .pipe(map(result => {
                 return response.json({ data: { balance: result.data.balance } });
             }));
