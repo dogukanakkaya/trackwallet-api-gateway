@@ -20,9 +20,6 @@ export class UserController {
             .pipe(map(result => {
                 this.responseService.throwIfError(result);
 
-                console.log(result.data.assets);
-
-
                 return response.json({ data: { assets: result.data.assets } });
             }));
     }
