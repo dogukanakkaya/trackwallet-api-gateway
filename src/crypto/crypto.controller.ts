@@ -4,7 +4,7 @@ import { Response } from 'express';
 import { map } from 'rxjs';
 import { CustomAuthGuard } from '../auth/custom-auth.guard';
 
-@Controller('crypto')
+@Controller('/crypto')
 export class CryptoController {
     constructor(
         @Inject('CRYPTO_SERVICE') private readonly client: ClientProxy
