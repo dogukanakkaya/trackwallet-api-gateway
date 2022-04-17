@@ -37,4 +37,3 @@ lerna-debug.log*
 # App
 *.env
 local_ssl
-serviceAccountKey.json

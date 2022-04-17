@@ -9,6 +9,7 @@ import { CryptoController } from './crypto.controller';
         name: 'CRYPTO_SERVICE',
         transport: Transport.TCP,
         options: {
+          host: 'crypto-service',
           port: 8083
         }
       }

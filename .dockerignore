@@ -1,0 +1,10 @@
+# Docker
+Dockerfile
+.dockerignore
+
+# VCS
+.git
+.gitignore
+
+# App
+node_modules
