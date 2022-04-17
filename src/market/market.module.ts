@@ -9,6 +9,7 @@ import { MarketController } from './market.controller';
         name: 'MARKET_SERVICE',
         transport: Transport.TCP,
         options: {
+          host: 'market-service',
           port: 8082
         }
       }

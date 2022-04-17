@@ -14,9 +14,9 @@ import config from './config';
       envFilePath: `.${process.env.NODE_ENV || 'dev'}.env`,
       load: [config]
     }),
-    //MarketModule,
-    //AuthModule,
-    //UserModule,
+    MarketModule,
+    AuthModule,
+    UserModule,
     CryptoModule,
     ResponseModule
   ]
