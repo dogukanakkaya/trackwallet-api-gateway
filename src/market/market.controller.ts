@@ -2,10 +2,8 @@ import { Controller, Get, Inject, Res, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Response } from 'express';
 import { map } from 'rxjs';
-import { User } from '../auth/auth.decorator';
 import { CustomAuthGuard } from '../auth/custom-auth.guard';
 import { ResponseService } from '../response/response.service';
-import type { User as UserType } from '@shared/types/user.types';
 
 @Controller('/market')
 export class MarketController {

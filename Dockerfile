@@ -1,16 +1,14 @@
-FROM node:17-alpine
-
-RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
-
+FROM node:17-alpine as dev
 WORKDIR /api-gateway
-COPY package*.json tsconfig.json ./
-
-ARG NODE_ENV=prod
-RUN if [ "${NODE_ENV}" = "prod" ] ; then npm i --only=production ; else npm i ; fi
-
+COPY package*.json ./
+RUN npm i
 COPY . .
+RUN npm run build
 
-EXPOSE 8080
-
-CMD ["npm", "run", "build"]
+FROM node:17-alpine as prod
+WORKDIR /api-gateway
+COPY package*.json ./
+RUN npm i --only=production
+COPY . .
+COPY --from=dev /api-gateway/dist ./dist
 CMD ["npm", "run", "start:prod"]

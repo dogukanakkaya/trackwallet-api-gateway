@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { map } from 'rxjs';
 import { User } from '../auth/auth.decorator';
 import { CustomAuthGuard } from '../auth/custom-auth.guard';
