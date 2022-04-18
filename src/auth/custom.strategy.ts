@@ -25,7 +25,7 @@ export class CustomStrategy extends PassportStrategy(Strategy, 'custom') {
 
     const { data }: AuthVerifyResponse = await lastValueFrom(this.client.send({ cmd: 'auth.verify' }, sessionCookie));
 
-    if ('user' in data) {
+    if (data && 'user' in data) {
       return data.user;
     }
 
