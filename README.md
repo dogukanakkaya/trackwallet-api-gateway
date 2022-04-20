@@ -2,7 +2,7 @@
 
 
 ## Kubernetes Manifests
-https://github.com/dogukanakkaya/trackwallet-k8s
+https://github.com/dogukanakkaya/trackwallet-k8s-manifests
 
 <br>
 
